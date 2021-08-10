@@ -12,5 +12,9 @@ class Note(BaseAbstractModel):
     tag = models.ManyToManyField(Tag)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        app_label = 'note'
+
+
     def __str__(self):
         return self.title

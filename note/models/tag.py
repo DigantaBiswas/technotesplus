@@ -6,3 +6,6 @@ from base.models import BaseAbstractModel
 class Tag(BaseAbstractModel):
     title = models.CharField(max_length=50)
 
+    class Meta:
+        app_label = 'note'
+
