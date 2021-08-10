@@ -11,6 +11,7 @@ class EditUser(APIView):
         first_name = request.data.get("first_name")
         last_name = request.data.get("last_name")
         email = request.data.get("email")
+        password = request.data.get("password")
 
         modified = False
 
@@ -24,6 +25,10 @@ class EditUser(APIView):
             modified = True
         if email:
             existing_user.email = email
+            modified = True
+
+        if password:
+            existing_user.set_password(password)
             modified = True
 
         if modified:
