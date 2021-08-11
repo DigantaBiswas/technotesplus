@@ -1,2 +1,1 @@
-from note.models.Note import Note
-from note.models.tag import Tag
+from note.views.home_view import HomeView

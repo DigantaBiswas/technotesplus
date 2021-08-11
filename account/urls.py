@@ -1,8 +1,8 @@
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 
-from account.views.edit_user import EditUser
-from account.views.register_user import Register
+from account.views.edit_user_api_view import EditUser
+from account.views.register_user_api_view import Register
 
 urlpatterns = [
     path('login/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
