@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from note.models.Note import Note
 
 
-class NoteListView(APIView):
+class NoteListApiView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
