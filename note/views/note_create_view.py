@@ -23,5 +23,11 @@ class NoteCreateView(View):
             for tag in tags:
                 new_note.tag.add(Tag.objects.filter(id=int(tag)).last())
 
+        context = {
+            'note': new_note
+        }
+
+        return render(request, "note/detail.html", context)
+
         return render(request, "note/home.html")
 

@@ -22,3 +22,26 @@ class NoteEditView(View):
             return render(request, "note/edit_note.html", context)
         else:
             raise Exception("Not created by This user")
+
+    def post(self, request, pk):
+        body = request.POST.get('editordata')
+        title = request.POST.get('title')
+        tags = request.POST.getlist('tags')
+
+        editable_note = Note.objects.filter(id=pk).last()
+
+        editable_note.created_by = request.user
+        editable_note.title = title
+        editable_note.body = body
+
+        editable_note.save()
+        editable_note.tag.clear()
+        if tags:
+            for tag in tags:
+                editable_note.tag.add(Tag.objects.filter(id=int(tag)).last())
+
+        context = {
+            'note': editable_note
+        }
+
+        return render(request, "note/detail.html", context)
