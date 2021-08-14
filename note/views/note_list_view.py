@@ -6,7 +6,7 @@ from note.models.Note import Note
 
 class NoteListView(View):
     def get(self, request):
-        notes = Note.objects.filter(created_by=request.user)
+        notes = Note.objects.filter(created_by=request.user).order_by('-updated_at')
 
         context = {
             'notes': notes

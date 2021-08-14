@@ -1,0 +1,26 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+
+            <div class="row">
+                <a class="btn btn-primary" href="{% url 'note_edit' note.id %}" role="button">Edit</a>
+            <br>
+            </div>
+            <br>
+
+            <div class="col">
+
+            {{ note.body|safe }}
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -14,7 +14,7 @@
                             <h5 class="card-title">{{ note.title }}</h5>
                             <p class="card-text"> Created at: {{ note.created_at }}</p>
                             <p class="card-text">Updated at: {{ note.updated_at }}</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="{% url 'note_detail' note.id %}" class="btn btn-primary">Go somewhere</a>
                         </div>
                     </div>
                     <br>
