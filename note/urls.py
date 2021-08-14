@@ -1,5 +1,6 @@
 from django.urls import path
 
+from note.views import NoteListView
 from note.views.note_create_api_view import  NoteCreateApiView
 from note.views.note_list_api_view import NoteListApiView
 from note.views.tag_create_view import TagCreateView
@@ -11,4 +12,5 @@ urlpatterns = [
     path('api/note-create/', NoteCreateApiView.as_view(), name="note_create_api"),
     path('note-create/', NoteCreateApiView.as_view(), name="note_create"),
     path('api/note-list/', NoteListApiView.as_view(), name="note_list_api"),
+    path('note-list/', NoteListView.as_view(), name="note_list"),
 ]
