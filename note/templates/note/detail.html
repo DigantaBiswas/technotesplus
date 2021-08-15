@@ -7,20 +7,49 @@
 {% block content %}
     <div class="container">
         <div class="row">
-
-            <div class="row">
-                <a class="btn btn-primary" href="{% url 'note_edit' note.id %}" role="button">Edit</a>
-            <br>
-            </div>
+            {% if user == note.created_by %}
+                <div class="row">
+                    <a class="btn btn-primary" href="{% url 'note_edit' note.id %}" role="button">Edit</a>
+                    <br>
+                    <button type="button" class="btn btn-primary btn-sm mt-2" data-toggle="modal"
+                            data-target="#exampleModalLong">Share With
+                    </button>
+                    <br>
+                </div>
+            {% endif %}
             <br>
 
             <div class="col">
 
-            {{ note.body|safe }}
+                {{ note.body|safe }}
 
 
             </div>
         </div>
     </div>
+    {% include 'note/share_modal.html' %}
+
+
+
+    {% block extra_js %}
+        <script>
+        function sharePost(){
+            let users = $('#sharedwith').val();
+             users = JSON.stringify(users)
+            {#let note_id = {{ note.id }}#}
+
+            {#let data = {''}#}
+            $.ajax({
+                data: {'users': users, 'note_id': {{note.id}} },
+                method: 'post',
+                url: '{% url 'share_post' %}',
+                async: false
+            }).then(function (data) {
+                window.emojis = Object.keys(data);
+                window.emojiUrls = data;
+            });
+        }
+        </script>
+    {% endblock %}
 
 {% endblock %}

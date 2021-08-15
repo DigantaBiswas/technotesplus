@@ -11,10 +11,11 @@ class Note(BaseAbstractModel):
     body = models.TextField(blank=True, null=True)
     tag = models.ManyToManyField(Tag)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    shared_with = models.ManyToManyField(User, related_name="shared_with",  blank=True)
+    watched_by = models.ManyToManyField(User, related_name="watched_by",  blank=True)
 
     class Meta:
         app_label = 'note'
-
 
     def __str__(self):
         return self.title
