@@ -19,36 +19,50 @@
             {% endif %}
             <br>
 
-            <div class="col">
+            <div class="col mt-5">
 
                 {{ note.body|safe }}
 
 
             </div>
         </div>
-    </div>
+
+        {% if shared_with %}
+            <div class="row mt-5">
+                <hr>
+                <h5>Share Info </h5>
+                <div class="list-group">
+                    {% for shared_with in shared_with %}
+                        <a href=""
+                           class="list-group-item list-group-item-action  {% if shared_with in watched %}list-group-item-success{% endif %} ">{{ shared_with.username }}
+                            <span mr-0> {% if shared_with in watched %}seen{% endif %}</span> </a>
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        {% endif %}
     {% include 'note/share_modal.html' %}
 
 
 
     {% block extra_js %}
         <script>
-        function sharePost(){
-            let users = $('#sharedwith').val();
-             users = JSON.stringify(users)
-            {#let note_id = {{ note.id }}#}
+            function sharePost() {
+                let users = $('#sharedwith').val();
+                users = JSON.stringify(users)
+                {#let note_id = {{ note.id }}#}
 
-            {#let data = {''}#}
-            $.ajax({
-                data: {'users': users, 'note_id': {{note.id}} },
-                method: 'post',
-                url: '{% url 'share_post' %}',
-                async: false
-            }).then(function (data) {
-                window.emojis = Object.keys(data);
-                window.emojiUrls = data;
-            });
-        }
+                {#let data = {''}#}
+                $.ajax({
+                    data: {'users': users, 'note_id': {{note.id}}},
+                    method: 'post',
+                    url: '{% url 'share_post' %}',
+                    async: false
+                }).then(function (data) {
+                    window.emojis = Object.keys(data);
+                    window.emojiUrls = data;
+                });
+            }
         </script>
     {% endblock %}
 

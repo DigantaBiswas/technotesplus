@@ -8,13 +8,25 @@ from note.models.Note import Note
 class NoteDetail(View):
     def get(self, request, pk):
         note = Note.objects.filter(id=pk).last()
-        all_users = User.objects.all()
-        shared_with_ids = list(note.shared_with.all().values_list("id",flat=True))
+        if request.user == note.created_by or request.user in note.shared_with.all():
 
-        context = {
-            'note': note,
-            'all_user': all_users,
-            'shared_with_ids':shared_with_ids,
+            if request.user in note.shared_with.all():
+                note.update_watched_by_field(request.user)
 
-        }
-        return render(request, "note/detail.html", context)
+            all_users = User.objects.all().exclude(id=request.user.id)
+            shared_with = note.shared_with.all()
+            shared_with_ids = list(shared_with.values_list("id", flat=True))
+
+            watched = note.watched_by.all()
+
+            context = {
+                'note': note,
+                'all_user': all_users,
+                'shared_with': shared_with,
+                'shared_with_ids': shared_with_ids,
+                'watched': watched
+
+            }
+            return render(request, "note/detail.html", context)
+
+        raise Exception("Not authorised")

@@ -19,3 +19,8 @@ class Note(BaseAbstractModel):
 
     def __str__(self):
         return self.title
+
+    def update_watched_by_field(self, user):
+        if user not in self.watched_by.all():
+            self.watched_by.add(user)
+            self.save()
