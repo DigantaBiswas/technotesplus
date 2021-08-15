@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from celery.schedules import crontab
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -133,5 +135,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
 
-LOGIN_REDIRECT_URL = 'home' # URL redirecting after a successful authentication
+LOGIN_REDIRECT_URL = 'home'  # URL redirecting after a successful authentication
 
+# Celery application definition
+# http://docs.celeryproject.org/en/v4.0.2/userguide/configuration.htmlCELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Makassar'
+CELERY_BEAT_SCHEDULE = {
+    'task-number-one': {
+        'task': 'note.scheduler.email_scheduler_for_shared_post.task_number_one',
+        'schedule': crontab(minute=59, hour=23),
+        # 'args': (*args)
+    },
+}
