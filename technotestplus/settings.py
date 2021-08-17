@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'account',
     'note',
     'corsheaders',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -139,15 +141,29 @@ LOGIN_REDIRECT_URL = 'home'  # URL redirecting after a successful authentication
 
 # Celery application definition
 # http://docs.celeryproject.org/en/v4.0.2/userguide/configuration.htmlCELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'Asia/Makassar'
+# CELERY_BEAT_SCHEDULE = {
+#     'task-number-one': {
+#         'task': 'note.scheduler.email_scheduler_for_shared_post.task_number_one',
+#         'schedule': crontab(minute=59, hour=23),
+#         # 'args': (*args)
+#     },
+# }
+
+
+# CELERY_RESULT_BACKEND = "django-db"
+
+# CELERY STUFF
+BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Asia/Makassar'
-CELERY_BEAT_SCHEDULE = {
-    'task-number-one': {
-        'task': 'note.scheduler.email_scheduler_for_shared_post.task_number_one',
-        'schedule': crontab(minute=59, hour=23),
-        # 'args': (*args)
-    },
-}
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'
+CELERY_IMPORTS = [
+    'note.tasks.tasks'
+]
