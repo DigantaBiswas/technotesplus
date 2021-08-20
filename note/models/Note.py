@@ -13,6 +13,7 @@ class Note(BaseAbstractModel):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     shared_with = models.ManyToManyField(User, related_name="shared_with",  blank=True)
     watched_by = models.ManyToManyField(User, related_name="watched_by",  blank=True)
+    all_watched = models.BooleanField(default=False)
 
     class Meta:
         app_label = 'note'
@@ -23,4 +24,11 @@ class Note(BaseAbstractModel):
     def update_watched_by_field(self, user):
         if user not in self.watched_by.all():
             self.watched_by.add(user)
+            # self.save()
+
+            shared = list(self.shared_with.all().order_by("id").values_list("id", flat=True))
+            watched = list(self.watched_by.all().order_by("id").values_list("id", flat=True))
+
+            if shared == watched:
+                self.all_watched =True
             self.save()
